@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, jalebi 💖</title>
+    
+    <!-- Tailwind CSS for Modern Styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP for Smooth Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #020617; /* Deep Slate 950 */
+            overflow-x: hidden;
+        }
+        .romantic-font {
+            font-family: 'Dancing Script', cursive;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .floating-heart {
+            position: absolute;
+            color: #ec4899;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .glow-text {
+            text-shadow: 0 0 20px rgba(236, 72, 153, 0.5);
+        }
+    </style>
+</head>
+<body class="text-slate-200">
+
+    <!-- Background Music (Lo-Fi) -->
+    <!-- Note: Browsers block auto-play, so user must click play icon -->
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Floating Hearts Container -->
+    <div id="hearts-container" class="fixed inset-0 pointer-events-none"></div>
+
+    <!-- Main Content -->
+    <main class="relative z-10 min-h-screen flex flex-col items-center justify-center p-6">
+        
+        <!-- Music Toggle -->
+        <button id="musicBtn" class="fixed top-5 right-5 w-12 h-12 rounded-full glass-card flex items-center justify-center text-pink-500 hover:scale-110 transition-transform">
+            <i class="fas fa-music"></i>
+        </button>
+
+        <!-- Hero Section -->
+        <div class="text-center" id="hero">
+            <div class="mb-6 opacity-0 translate-y-10" id="avatar-container">
+                <div class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-pink-500 p-1 mx-auto shadow-lg shadow-pink-500/20">
+                    <!-- Replace with partner's photo -->
+                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400" alt="Birthday Person" class="w-full h-full object-cover rounded-full">
+                </div>
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl font-bold glow-text mb-4 opacity-0" id="main-title">
+                Happy Birthday, <span class="text-pink-500">jalebi!</span>
+            </h1>
+            
+            <p class="text-lg md:text-xl text-slate-400 max-w-md mx-auto opacity-0" id="sub-title">
+                To the person who makes every day feel like a beautiful dream.
+            </p>
+        </div>
+
+        <!-- Emotional Message Card -->
+        <div class="mt-12 max-w-2xl w-full glass-card rounded-3xl p-8 md:p-12 opacity-0 scale-95" id="message-card">
+            <div class="flex justify-center mb-6">
+                <i class="fas fa-heart text-pink-500 text-3xl animate-pulse"></i>
+            </div>
+            <p class="romantic-font text-2xl md:text-3xl text-center leading-relaxed">
+                "In a world full of temporary things, you are my forever. May your day be as bright as your smile and as beautiful as your heart.life is sweater with you by my side kunu kunu chuaa."
+            </p>
+            <div class="mt-8 flex flex-wrap justify-center gap-4 text-sm font-semibold uppercase tracking-widest text-pink-400">
+                <span>Soulmate</span>
+                <span>•</span>
+                <span>Best Friend</span>
+                <span>•</span>
+                <span>Everything</span>
+            </div>
+        </div>
+
+        <!-- Footer / CTA -->
+        <footer class="mt-16 opacity-0" id="footer">
+            <p class="text-slate-500 flex items-center gap-2">
+                Made with <i class="fas fa-heart text-pink-600"></i> by [Your Name]
+            </p>
+        </footer>
+    </main>
+
+    <script>
+        // --- ANIMATIONS ---
+        window.addEventListener('DOMContentLoaded', () => {
+            const tl = gsap.timeline();
+
+            tl.to("#avatar-container", { opacity: 1, y: 0, duration: 1, ease: "power4.out" })
+              .to("#main-title", { opacity: 1, duration: 1, delay: -0.5 })
+              .to("#sub-title", { opacity: 1, duration: 1, delay: -0.8 })
+              .to("#message-card", { opacity: 1, scale: 1, duration: 1.2, ease: "back.out(1.7)", delay: -0.5 })
+              .to("#footer", { opacity: 1, duration: 1, delay: -0.5 });
+
+            createHearts();
+        });
+
+        // --- FLOATING HEARTS GENERATOR ---
+        function createHearts() {
+            const container = document.getElementById('hearts-container');
+            const heartIcons = ['fa-heart', 'fa-sparkles', 'fa-star'];
+            
+            setInterval(() => {
+                const heart = document.createElement('i');
+                const randomIcon = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+                heart.classList.add('fas', randomIcon, 'floating-heart', 'opacity-0');
+                
+                const startX = Math.random() * window.innerWidth;
+                const size = Math.random() * 20 + 10;
+                
+                heart.style.left = `${startX}px`;
+                heart.style.top = `105vh`;
+                heart.style.fontSize = `${size}px`;
+                
+                container.appendChild(heart);
+
+                gsap.to(heart, {
+                    y: -window.innerHeight - 100,
+                    x: (Math.random() - 0.5) * 200,
+                    opacity: Math.random() * 0.5 + 0.2,
+                    duration: Math.random() * 5 + 5,
+                    ease: "none",
+                    onComplete: () => heart.remove()
+                });
+            }, 500);
+        }
+
+        // --- MUSIC CONTROL ---
+        const music = document.getElementById('bgMusic');
+        const musicBtn = document.getElementById('musicBtn');
+        let isPlaying = false;
+
+        musicBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                music.pause();
+                musicBtn.innerHTML = '<i class="fas fa-play"></i>';
+            } else {
+                music.play();
+                musicBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            }
+            isPlaying = !isPlaying;
+        });
+    </script>
+</body>
+</html>
